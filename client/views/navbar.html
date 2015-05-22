@@ -1,0 +1,53 @@
+<template name="navbar">
+
+
+  <!-- Main Sidebar Menu -->
+
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a href="{{urlFor route='host'}}">
+          <span class="glyphicon glyphicon-home"></span>
+        </a>
+      </li>
+      <li class="profile-list">
+        <a href="#"> <i class="nav-icon glyphicon glyphicon-user"> </i> </a>
+      </li>
+      <li class="map-list">
+        <a href="#"> <i class="nav-icon glyphicon glyphicon-th-list"> </i> </a>
+      </li>
+      <li>
+        <a href="#"><i class="nav-icon glyphicon glyphicon-log-out logout"></i></a>
+      </li>
+
+
+    </ul>
+  </div>
+
+  <!-- Map Menu -->
+
+  <nav class="navbar navbar-default navbar-fixed-top navbar-map" role="navigation">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          {{#if toggle}}
+          <button class="btn btn-default dropdown-toggle gps hide-menu join" style="display:inline-block;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            Join
+          </button>
+          <button class="btn btn-primary dropdown-toggle gps hide-menu host" type="button" style="display:inline-block;" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            Host
+          </button>
+          {{else}}
+          <button class="btn btn-primary dropdown-toggle gps hide-menu join" style="display:inline-block;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            Join
+          </button>
+          <button class="btn btn-default dropdown-toggle gps hide-menu host" type="button" style="display:inline-block;" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            Host
+          </button>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</template>

@@ -1,0 +1,102 @@
+<template name="matches">
+
+  <!-- Two routes, depending on Session variable 'matchOn' -->
+  {{#if matchOn}}
+  <div class="testing">
+    <hr>
+    <div class="container matches2" id="{{_id}}">
+      <div class="col-md-4 avatar-listing">
+        <img src="/img/default.jpg" class="avatar  match-post img-circle img-thumbnail match-avatar" alt="avatar">
+      </div>
+      <div class="col-md-6">
+        <h3> {{author}} </h3>
+        <h5>
+          <strong> Name: </strong> {{user.profile.firstName}} {{user.profile.lastName}} </h5>
+        <h5>
+          <strong> Gender: </strong> {{user.profile.gender}} </h5>
+        <h5>
+          <strong> Skill: </strong> {{user.profile.skill}} </h5>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-default match-enlarge">
+          <span class="glyphicon glyphicon-chevron-left"> </span>
+        </button>
+      </div>
+      <hr>
+    </div>
+  </div>
+  <div id="match-on-details">
+    <h3 class="text-center">Match @ {{court}}
+      <br>
+    </h3>
+    <h3 class="text-center">
+      <small> This match is scheduled at
+        <strong> {{time}} </strong>. The author
+        <strong> {{author}} </strong>
+        would like to play a
+        <strong> {{type}} </strong> match. </small>
+    </h3>
+    <div id="googledirections"></div>
+    <h3 class="text-center">
+      <button type='button' class="btn btn-default btn-block">
+        <h4> Play Match </h4>
+      </button>
+    </h3>
+    <hr>
+  </div>
+  {{else}} {{#if courtTrue}}
+  <div class="container" style="box-shadow: 0 0 3px #000; background: url(../img/noisy_net.png); color: #fff">
+    <h3> Current matches @
+      <strong> {{postName.court}} </strong>
+    </h3>
+  </div>
+  {{#each post}}
+  <div class="col-md-12">
+    <div class=" match-box match-enlarge matches" id="{{_id}}">
+      <div class="col-md-3">
+        <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/000/25f/366/2908796.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
+        <span class="glyphicon glyphicon-user">
+          <small>{{author}} </small>
+        </span>
+      </div>
+      <div class="col-md-9">
+        <span class="title"> {{title}} </span>
+        <h3>
+          <small>
+            <strong> {{type}} </strong> scheduled @
+            <strong> {{time}} </strong>
+          </small>
+        </h3>
+      </div>
+      <br>
+    </div>
+  </div>
+  {{/each}} {{else}}
+  <div class="container" style="box-shadow: 0 0 3px #000; background: url(../img/noisy_net.png); color: #fff">
+    <h3> Matches Near You</h3>
+  </div>
+  {{#each posts}}
+  <div class="col-md-12">
+    <div class=" match-box match-enlarge matches" id="{{_id}}">
+      <div class="col-md-3">
+        <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/000/25f/366/2908796.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
+        <span class="glyphicon glyphicon-user">
+          <small>{{author}} </small>
+        </span>
+      </div>
+      <div class="col-md-9">
+        <span class="title"> @ {{court}}</span>
+        <br>
+        <h3>
+          <small>
+            <strong> {{type}} </strong> match scheduled for
+            <strong> {{time}} </strong>
+          </small>
+        </h3>
+      </div>
+      <br>
+    </div>
+  </div>
+  {{/each}} {{/if}} {{/if}}
+
+</template>

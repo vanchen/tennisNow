@@ -1,0 +1,26 @@
+<template name="map">
+
+  <!-- Match Map Container -->
+  {{>map_details}}
+
+  <!-- Navigation Bars -->
+  {{>navbar}}
+
+  <!-- Profile Page -->
+  <div id="sidebar-extension">
+
+    {{#if sideBar}} {{>profile}} {{else}}
+
+    <!-- Match list page. Two routes, depending on Session variable 'matchOn' -->
+    <div id="match-listings">
+      {{#if matchOn}} {{#with match}} {{>matches}} {{/with}} {{else}} {{>matches}} {{/if}}
+    </div>
+    {{/if}}
+  </div>
+
+  <!-- Primary Map Container -->
+  <div class="map-container-host">
+    {{> googleMap name="exampleMap" options=exampleMapOptions}}
+  </div>
+
+</template>
