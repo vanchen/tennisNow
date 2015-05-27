@@ -95,6 +95,9 @@ Template.map.events({
     Session.set('profileOn', false)
     Session.set('matchesOn', false)
     Session.set('courtTrue', false)
+    maps[0].instance.setCenter(new google.maps.LatLng(Geolocation.latLng().lat, Geolocation.latLng().lng))
+    maps[0].instance.setZoom(12);
+    gps_marker.setAnimation(google.maps.Animation.DROP);
   },
   'click .profile-list': function(event) {
     if (Session.get('profileOn') === false && Session.get('matchesOn') === false) {
@@ -435,7 +438,7 @@ Template.map.onRendered(function() {
     var pos = Geolocation.latLng();
     var google_pos = new google.maps.LatLng(pos.lat, pos.lng);
 
-    var marker = new google.maps.Marker({
+      gps_marker = new google.maps.Marker({
       position: google_pos,
       map: map.instance,
       animation: google.maps.Animation.DROP,

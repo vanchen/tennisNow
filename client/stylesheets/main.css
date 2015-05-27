@@ -53,8 +53,7 @@
 }
 .match-box {
   height: 125px;
-  width: 95%;
-  margin: 10px;
+  width: 100%;
   background: #fff;
   padding: 5px;
   box-shadow: 0.5px 0.5px 1px #000;
