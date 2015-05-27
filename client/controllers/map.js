@@ -35,9 +35,11 @@ styles = [{
   }]
 }];
 
-///////////////
-// Functions //
-///////////////
+Session.setDefault('profileOn', false)
+Session.setDefault('matchesOn', false)
+  ///////////////
+  // Functions //
+  ///////////////
 
 
 
@@ -72,12 +74,10 @@ Template.map.events({
         if (post.court === markers[i].title) {
           if (post.author !== Meteor.user().username && post.play === false) {
             new_markers.push(markers[i])
-          }
-          else {
+          } else {
             markers[i].setMap(null)
           }
-        }
-         else {
+        } else {
           markers[i].setMap(null)
         }
       });
@@ -88,37 +88,58 @@ Template.map.events({
   },
 
   //Map Sidebar Events//
-
-  'click .profile-list': function(event) {
-    Session.set('sidebar', true)
+  'click .home': function(event) {
+    $('#profile-interface').css('visibility', 'hidden');
+    $('#match-listings').css('visibility', 'hidden')
+    $('#sidebar-extension').css('width', '0px');
+    Session.set('profileOn', false)
+    Session.set('matchesOn', false)
     Session.set('courtTrue', false)
-    Meteor.setTimeout(function() {
-      if ($('#sidebar-extension').css('width') === '0px') {
-        $('#sidebar-extension').css('width', '1200px');
-        $('#profile-interface').css('visibility', 'visible');
-      } else {
-        Session.set('sidebar', false)
-        $('#sidebar-extension').css('width', '0px')
+  },
+  'click .profile-list': function(event) {
+    if (Session.get('profileOn') === false && Session.get('matchesOn') === false) {
+      Session.set('profileOn', true)
+      $('#sidebar-extension').css('width', '35%');
+      $('#profile-interface').css('visibility', 'visible');
+      Session.set('courtTrue', false)
+      console.log($('#profile-interface').css('visibility'))
+    } else {
+      if (Session.get('profileOn') === true && Session.get('matchesOn') === false) {
         $('#profile-interface').css('visibility', 'hidden');
+        $('#sidebar-extension').css('width', '0px');
+        Session.set('profileOn', false)
+        Session.set('courtTrue', false)
+
+      } else {
+        $('#profile-interface').css('visibility', 'visibile');
+        $('#match-listings').css('visibility', 'hidden')
+        Session.set('profileOn', true)
+        Session.set('matchesOn', false)
+        Session.set('courtTrue', false)
       }
-    }, 2);
+    }
   },
   'click .map-list': function(event) {
-    Session.set('sidebar', false)
-    Meteor.setTimeout(function() {
-      if ($('#sidebar-extension').css('width') === '0px') {
-        $('#sidebar-extension').css('width', '35%');
-        $('#match-listings').css('visibility', 'visible')
-        Session.set('courtTrue', false);
-      } else {
-        Session.set('sidebar', true)
-        maps[0].instance.setCenter(new google.maps.LatLng(Geolocation.latLng().lat, Geolocation.latLng().lng))
-        maps[0].instance.setZoom(12);
+    if (Session.get('profileOn') === false && Session.get('matchesOn') === false) {
+      $('#sidebar-extension').css('width', '35%');
+      $('#match-listings').css('visibility', 'visible')
+      Session.set('matchesOn', true);
+      Session.set('courtTrue', false);
+    } else {
+      if (Session.get('matchesOn') === true && Session.get('profileOn') === false) {
+        $('#match-listings').css('visibility', 'hidden')
         $('#sidebar-extension').css('width', '0px')
-        $('#match-listings').css('visibility', 'hidden');
-        Session.set('courtTrue', false);
+        Session.set('matchesOn', false)
+        Session.set('courtTrue', false)
+
+      } else {
+        $('#profile-interface').css('visibility', 'hidden');
+        $('#match-listings').css('visibility', 'visible')
+        Session.set('profileOn', false)
+        Session.set('matchesOn', true)
+        Session.set('courtTrue', false)
       }
-    }, 2);
+    }
   },
   'click .logout': function(event) {
     event.preventDefault();
@@ -187,52 +208,53 @@ Template.map.events({
   'click #show': function(event) {
     if ($('.show-directions').css('display') === 'none') {
       $('.show-directions').show()
-    }
-    else {
+    } else {
       $('.show-directions').hide()
     }
   },
 
-  'click #play-match' : function(event) {
+  'click #play-match': function(event) {
     bootbox.confirm("Are you sure?", function(result) {
       if (result) {
-      var matchProperties = {
-        host : Posts.findOne({_id : Session.get('match-id')}).author,
-        challenger: Meteor.user().username,
-        match_id : Session.get('match-id'),
-        completed : false
-      }
-      Matches.insert(matchProperties)
-      Posts.update({
-        _id: Session.get('match-id')
-      }, {
-        $set: {
-          'play': true
+        var matchProperties = {
+          host: Posts.findOne({
+            _id: Session.get('match-id')
+          }).author,
+          challenger: Meteor.user().username,
+          match_id: Session.get('match-id'),
+          completed: false
         }
-      });
+        Matches.insert(matchProperties)
+        Posts.update({
+          _id: Session.get('match-id')
+        }, {
+          $set: {
+            'play': true
+          }
+        });
+      }
+    });
+  },
+
+
+  /*Meteor.setTimeout(function() {
+    if ($('#sidebar-extension-match').css('width') === '0px') {
+      $('#sidebar-extension-match').css('width', '300px');
+      $('#message-box').show();
+      $('#message-form').show()
     }
-  });
-},
+    else {
+      $('#sidebar-extension-match').css('width', '0px')
+      $('#message-box').hide();
+      $('#message-form').hide()
+    }
+  }, 2); */
 
-
-    /*Meteor.setTimeout(function() {
-      if ($('#sidebar-extension-match').css('width') === '0px') {
-        $('#sidebar-extension-match').css('width', '300px');
-        $('#message-box').show();
-        $('#message-form').show()
-      }
-      else {
-        $('#sidebar-extension-match').css('width', '0px')
-        $('#message-box').hide();
-        $('#message-form').hide()
-      }
-    }, 2); */
-
-  'click .message-send' : function(event) {
+  'click .message-send': function(event) {
     event.preventDefault();
     var commentProperties = {
       text: $('#btn-input').val(),
-      postId : Session.get('match-id'),
+      postId: Session.get('match-id'),
       author: Meteor.user().username,
       toggle: false
     }
@@ -295,8 +317,10 @@ Template.map.events({
 ///////////
 
 Template.chat.helpers({
-  'comments' : function() {
-    Comments.find({'postId' : Session.get('match-id')}).forEach(function(comment){
+  'comments': function() {
+    Comments.find({
+      'postId': Session.get('match-id')
+    }).forEach(function(comment) {
       if (comment.author === Meteor.user().username) {
         Comments.update({
           _id: comment._id
@@ -305,8 +329,7 @@ Template.chat.helpers({
             'toggle': true
           }
         });
-      }
-      else {
+      } else {
         Comments.update({
           _id: comment._id
         }, {
@@ -316,7 +339,9 @@ Template.chat.helpers({
         });
       }
     });
-    return Comments.find({'postId' : Session.get('match-id')})
+    return Comments.find({
+      'postId': Session.get('match-id')
+    })
   }
 });
 

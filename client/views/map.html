@@ -8,14 +8,13 @@
 
   <!-- Profile Page -->
   <div id="sidebar-extension">
-
-    {{#if sideBar}} {{>profile}} {{else}}
-
-    <!-- Match list page. Two routes, depending on Session variable 'matchOn' -->
     <div id="match-listings">
-      {{#if matchOn}} {{#with match}} {{>matches}} {{/with}} {{else}} {{>matches}} {{/if}}
+
+      <!-- Match list page. Two routes, depending on Session variable 'matchOn' -->
+
+      {{#if matchOn}} {{#with match}} {{>matches}} {{/with}} {{else}} {{#if profileOn}} {{>matches}} {{else}} {{>matches}} {{/if}}{{/if}}
     </div>
-    {{/if}}
+
 
 
   </div>
