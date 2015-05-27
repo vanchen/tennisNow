@@ -64,33 +64,33 @@
       <strong> {{postName.court}} </strong>
     </h3>
   </div>
-  {{#each post}}
-  <div class="col-md-12">
-    <div class=" match-box match-enlarge matches" id="{{_id}}">
-      <div class="col-md-3">
-        <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/000/25f/366/2908796.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
-        <span class="glyphicon glyphicon-user">
-          <small>{{author}} </small>
-        </span>
+  <div class="twt-wrapper">
+    <div class="panel panel-info" style="border:0px;">
+
+      <div class="panel-body">
+
+        <ul class="media-list">
+          {{#each post}}
+
+          <li class="media match-enlarge matches" id="{{_id}}">
+            <a href="#" class="pull-left">
+              <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/000/25f/366/2908796.jpg" alt="" class="img-rounded" style="width:50px;height:50px;border:2px solid #e5e7e8;">
+            </a>
+            <div class="media-body">
+              <strong class="text-success" style="color:#000; ">vs. {{author}} </strong>
+              <p> <strong> {{type}} </strong> match scheduled for <strong> {{time}} </strong> </p>
+
+            </div>
+          </li>
+          {{/each}} </ul>
       </div>
-      <div class="col-md-9">
-        <span class="title"> {{title}} </span>
-        <h3>
-          <small>
-            <strong> {{type}} </strong> scheduled @
-            <strong> {{time}} </strong>
-          </small>
-        </h3>
-      </div>
-      <br>
     </div>
-  </div>
-  {{/each}} {{else}}
+  </div>{{else}}
   <div class="container" style="box-shadow: 0 0 3px #000; background: url(../img/noisy_net.png); color: #fff">
     <h3> Your Matches</h3>
   </div>
   <div class="twt-wrapper">
-    <div class="panel panel-info">
+    <div class="panel panel-info"  style="border:0px;">
 
       <div class="panel-body">
 
@@ -98,18 +98,17 @@
           {{#each posts}}
           <!-- TWEET WRAPPER START -->
 
-          <li class="media">
+          <li class="media match-enlarge matches" id="{{_id}}">
             <a href="#" class="pull-left">
-              <img src="assets/img/1.png" alt="" class="img-circle">
+              <img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/000/25f/366/2908796.jpg" alt="" class="img-rounded" style="width:50px;height:50px;border:2px solid #e5e7e8;">
             </a>
             <div class="media-body">
               <span class="text-muted pull-right">
                 <small class="text-muted">{{time}} </small>
               </span>
-              <strong class="text-success">@ {{court}} </strong>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, <a href="#"># consectetur adipiscing </a>.
-              </p>
+              <strong class="text-success" style="color:#000; ">@ {{court}} </strong>
+              <p> A {{type}} match vs {{author}} </p>
+
             </div>
           </li>
           <!-- TWEET WRAPPER END -->
