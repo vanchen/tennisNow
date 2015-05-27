@@ -70,8 +70,14 @@ Template.map.events({
       Posts.find().forEach(function(post) {
 
         if (post.court === markers[i].title) {
-          new_markers.push(markers[i])
-        } else {
+          if (post.author !== Meteor.user().username && post.play === false) {
+            new_markers.push(markers[i])
+          }
+          else {
+            markers[i].setMap(null)
+          }
+        }
+         else {
           markers[i].setMap(null)
         }
       });
@@ -101,7 +107,7 @@ Template.map.events({
     Session.set('sidebar', false)
     Meteor.setTimeout(function() {
       if ($('#sidebar-extension').css('width') === '0px') {
-        $('#sidebar-extension').css('width', '42%');
+        $('#sidebar-extension').css('width', '35%');
         $('#match-listings').css('visibility', 'visible')
         Session.set('courtTrue', false);
       } else {
@@ -177,6 +183,62 @@ Template.map.events({
     }
   },
 
+
+  'click #show': function(event) {
+    if ($('.show-directions').css('display') === 'none') {
+      $('.show-directions').show()
+    }
+    else {
+      $('.show-directions').hide()
+    }
+  },
+
+  'click #play-match' : function(event) {
+    bootbox.confirm("Are you sure?", function(result) {
+      if (result) {
+      var matchProperties = {
+        host : Posts.findOne({_id : Session.get('match-id')}).author,
+        challenger: Meteor.user().username,
+        match_id : Session.get('match-id'),
+        completed : false
+      }
+      Matches.insert(matchProperties)
+      Posts.update({
+        _id: Session.get('match-id')
+      }, {
+        $set: {
+          'play': true
+        }
+      });
+    }
+  });
+},
+
+
+    /*Meteor.setTimeout(function() {
+      if ($('#sidebar-extension-match').css('width') === '0px') {
+        $('#sidebar-extension-match').css('width', '300px');
+        $('#message-box').show();
+        $('#message-form').show()
+      }
+      else {
+        $('#sidebar-extension-match').css('width', '0px')
+        $('#message-box').hide();
+        $('#message-form').hide()
+      }
+    }, 2); */
+
+  'click .message-send' : function(event) {
+    event.preventDefault();
+    var commentProperties = {
+      text: $('#btn-input').val(),
+      postId : Session.get('match-id'),
+      author: Meteor.user().username,
+      toggle: false
+    }
+    Comments.insert(commentProperties);
+  },
+
   // Profile Events //
 
   'click .profile-submit': function(event) {
@@ -232,6 +294,32 @@ Template.map.events({
 //Helpers//
 ///////////
 
+Template.chat.helpers({
+  'comments' : function() {
+    Comments.find({'postId' : Session.get('match-id')}).forEach(function(comment){
+      if (comment.author === Meteor.user().username) {
+        Comments.update({
+          _id: comment._id
+        }, {
+          $set: {
+            'toggle': true
+          }
+        });
+      }
+      else {
+        Comments.update({
+          _id: comment._id
+        }, {
+          $set: {
+            'toggle': false
+          }
+        });
+      }
+    });
+    return Comments.find({'postId' : Session.get('match-id')})
+  }
+});
+
 Template.map.helpers({
   exampleMapOptions: function() {
     if (GoogleMaps.loaded()) {
@@ -257,7 +345,7 @@ Template.map.helpers({
   },
   'matchOn': function() {
     return Session.get('matchOn');
-  },
+  }
 });
 
 Template.navbar.helpers({
@@ -265,6 +353,9 @@ Template.navbar.helpers({
     return Session.get('toggle');
   }
 });
+
+
+
 Template.registerHelper('exampleMapOptions2', function() {
   var match_id = Session.get('match-id');
   court = Courts.findOne({
@@ -389,7 +480,7 @@ Template.map.onRendered(function() {
               map.instance.setZoom(15);
               Session.set('courtName', marker.title)
               Session.set('courtTrue', true);
-              $('#sidebar-extension').css('width', '550px');
+              $('#sidebar-extension').css('width', '35%');
               $('#match-listings').css('visibility', 'visible')
             } else {
               Session.set('sidebar', true)
@@ -420,7 +511,8 @@ Template.map.onRendered(function() {
             court: $(event.target).find('[id=court]').val(),
             time: $(event.target).find('[id=datetime]').val(),
             details: $(event.target).find('[id=details]').val(),
-            author: Meteor.user().username
+            author: Meteor.user().username,
+            play: false
           }
           Posts.insert(postProperties);
           info.close();

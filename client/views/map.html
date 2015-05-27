@@ -16,8 +16,16 @@
       {{#if matchOn}} {{#with match}} {{>matches}} {{/with}} {{else}} {{>matches}} {{/if}}
     </div>
     {{/if}}
+
+
   </div>
 
+  <div id="sidebar-extension-match">
+    <div id="message-box">
+      {{>chat}}
+    </div>
+
+  </div>
   <!-- Primary Map Container -->
   <div class="map-container-host">
     {{> googleMap name="exampleMap" options=exampleMapOptions}}

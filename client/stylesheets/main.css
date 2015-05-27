@@ -53,7 +53,7 @@
 }
 .match-box {
   height: 125px;
-  width: 500px;
+  width: 95%;
   margin: 10px;
   background: #fff;
   padding: 5px;
@@ -63,6 +63,29 @@
   font-family: "Source Sans Pro";
   font-size: 20px;
 }
+
+.show-directions {
+  display: none;
+}
+
+/* Message Interface */
+#message-box {
+  display: none;
+  height:100%;
+
+}
+.message{
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  display: block;
+  padding: 5px;
+  background: url(../img/noisy_net.png);
+}
+
+
+
+
 /* Landing Page Styles */
 
 #top {
@@ -116,9 +139,9 @@ body {
   overflow: none;
 }
 #sidebar-extensions-map {
-  margin-left: 50%;
+  margin-left: 40%;
   height: 100%;
-  width: 50%;
+  width: 60%;
   z-index: 1000;
   position: absolute;
   visibility: hidden;

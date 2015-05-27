@@ -38,6 +38,21 @@
   -o-transition: all 1s ease;
   transition: all 1s ease;
 }
+
+#sidebar-extension-match {
+  margin-left: 42%;
+  height: 100%;
+  width: 0px;
+  z-index: 1000;
+  position: fixed;
+  box-shadow: 0 0 10x black;
+  background: url(../img/pinstripe.png);
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
 .sidebar-form {
   width: 250px;
   text-align: center;

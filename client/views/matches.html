@@ -36,14 +36,29 @@
         would like to play a
         <strong> {{type}} </strong> match. </small>
     </h3>
-    <div id="googledirections"></div>
+
     <h3 class="text-center">
-      <button type='button' class="btn btn-default btn-block">
+      <button id ="show" type='button' class="btn btn-default btn-block">
+        <h4> Show Directions </h4>
+      </button>
+    </h3>
+    <div id="googledirections" class="show-directions"></div>
+    <h3 class="text-center">
+      <button id = "play-match" type='button' class="btn btn-default btn-block">
         <h4> Play Match </h4>
       </button>
     </h3>
-    <hr>
   </div>
+        <form  id="message-form" role="form" style="display: none;">
+    <div class="form-group">
+      <label for="comment">Message:</label>
+      <textarea class="form-control" id="btn-input" rows="5"></textarea>
+    </div>
+      <span class="input-group-btn">
+        <button  type="submit" class="btn btn-default btn-block btn-sm message-send" id="btn-chat">Send</button>
+      </span>
+    </form>
+    <hr>
   {{else}} {{#if courtTrue}}
   <div class="container" style="box-shadow: 0 0 3px #000; background: url(../img/noisy_net.png); color: #fff">
     <h3> Current matches @
@@ -73,7 +88,7 @@
   </div>
   {{/each}} {{else}}
   <div class="container" style="box-shadow: 0 0 3px #000; background: url(../img/noisy_net.png); color: #fff">
-    <h3> Matches Near You</h3>
+    <h3> Your Matches</h3>
   </div>
   {{#each posts}}
   <div class="col-md-12">

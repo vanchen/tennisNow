@@ -26,7 +26,20 @@ Template.matches.helpers({
     return Session.get('courtTrue');
   },
   posts: function() {
-    var courts = [];
+    var posts = [];
+    Matches.find().forEach(function(match){
+      if (match.challenger === Meteor.user().username) {
+        var matchId = match.match_id;
+        posts.push(Posts.findOne(matchId))
+      }
+    });
+    return posts;
+  }
+});
+
+
+
+    /*var courts = [];
     var pos = Geolocation.latLng();
     var R = 6371000;
     // Use Trig to find the distance from user's position.
@@ -59,6 +72,4 @@ Template.matches.helpers({
       posts[i] = Posts.findOne(courts[i]['id']);
       posts[i].distance = (courts[i]['Distance'] / 1000);
     }
-    return posts;
-  }
-});
+    return posts; */

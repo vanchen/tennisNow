@@ -1,5 +1,9 @@
 Posts = new Meteor.Collection("posts");
 Courts = new Meteor.Collection('courts');
+Comments = new Meteor.Collection('comments');
+Matches = new Meteor.Collection('matches');
+
+
 
 Meteor.users.allow({
   insert: function(userId, doc) {
